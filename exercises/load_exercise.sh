@@ -21,10 +21,7 @@ then
 fi
 
 SUB_FOLDERS=(
-    "movr/rides/src/test"
-    "movr/vehicles/src/test"
-    "movr/users/src/test"
-    "movr/ui_gateway/src/test"
+    "vehicles/tests"
 )
 
 SOLUTION_FOLDER=../solutions
