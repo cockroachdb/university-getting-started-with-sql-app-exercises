@@ -1,0 +1,21 @@
+name: CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Install CockroachDB
+        run: curl https://binaries.cockroachdb.com/cockroach-v21.2.6.linux-amd64.tgz | tar -xz && sudo cp -i cockroach-v21.2.6.linux-amd64/cockroach /usr/local/bin/
+      - name: Run the tests for all exercises
+        run: ./build.sh verify
