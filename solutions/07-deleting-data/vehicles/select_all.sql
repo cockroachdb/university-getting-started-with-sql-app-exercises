@@ -1,0 +1,1 @@
+SELECT id, make, model, color FROM movr_vehicles.vehicles;

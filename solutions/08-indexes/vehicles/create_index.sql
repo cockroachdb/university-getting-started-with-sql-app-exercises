@@ -1,0 +1,1 @@
+CREATE INDEX ON movr_vehicles.vehicles (vehicle_type, make, model);

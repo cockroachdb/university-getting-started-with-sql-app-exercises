@@ -1,0 +1,1 @@
+SELECT * FROM movr_vehicles.vehicles WHERE id='648aefea-9fbc-11ec-b909-0242ac120002';
