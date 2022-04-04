@@ -17,23 +17,5 @@ jobs:
 
       - name: Install CockroachDB
         run: curl https://binaries.cockroachdb.com/cockroach-v21.2.6.linux-amd64.tgz | tar -xz && sudo cp -i cockroach-v21.2.6.linux-amd64/cockroach /usr/local/bin/
-      - name: Run the tests for the exercises folder
-        run: ./exercises/vehicles/test.sh
-      - name: Run the tests for exercise 00
-        run: ./solutions/00-initial-state/vehicles/test.sh
-      - name: Run the tests for exercise 01
-        run: ./solutions/01-create-database/vehicles/test.sh
-      - name: Run the tests for exercise 02
-        run: ./solutions/02-create-table/vehicles/test.sh
-      - name: Run the tests for exercise 03
-        run: ./solutions/03-inserting-data/vehicles/test.sh
-      - name: Run the tests for exercise 04
-        run: ./solutions/04-reading-data/vehicles/test.sh
-      - name: Run the tests for exercise 05
-        run: ./solutions/05-filtering-data/vehicles/test.sh
-      - name: Run the tests for exercise 06
-        run: ./solutions/06-updating-data/vehicles/test.sh
-      - name: Run the tests for exercise 07
-        run: ./solutions/07-deleting-data/vehicles/test.sh
-      - name: Run the tests for exercise 08
-        run: ./solutions/08-indexes/vehicles/test.sh
+      - name: Run the tests for all exercises
+        run: ./build.sh verify
