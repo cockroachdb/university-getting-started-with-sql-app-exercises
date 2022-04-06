@@ -20,13 +20,24 @@ CURRENT_SCENARIO=""
 CURRENT_TEST=""
 INDENT_LEVEL=0
 
+DEBUG_LOGGING=false
+
 # LOGGING
+
 log() {
     if [[ $INDENT_LEVEL == 0 ]]; then
         echo -e "$1"
     else
         LOG_PREFIX=$(head -c $INDENT_LEVEL < /dev/zero | tr '\0' '\t') # Create a number of tabs dependent on the indent level.
         echo -e "$LOG_PREFIX$1"
+    fi
+}
+
+log_debug() {
+    local MESSAGE=$1
+
+    if $DEBUG_LOGGING; then
+        log "[DEBUG] $MESSAGE"
     fi
 }
 
@@ -89,6 +100,8 @@ terminate_cockroachdb() {
 
 # LOAD/EXECUTE SQL
 
+# Load a SQL script file and execute it with CockroachDB.
+# Usage: execute_script <script_file>
 execute_script() {
     local SCRIPT=$1
 
@@ -97,6 +110,8 @@ execute_script() {
     log ""
 }
 
+# Execute a query with CockroachDB and store the results so they can be processed by assertions.
+# Usage: load_from_query <query>
 load_from_query() {
     local QUERY=$1
 
@@ -125,12 +140,15 @@ load_from_query() {
         done
 
         TABLE_DATA+=($ROW_DATA)
-
     done
 
     IFS=$SAVEIFS
+
+    log_debug "TABLE_DATA: \n${TABLE_DATA[*]}"
 }
 
+# Load metadata about a table so it can be processed by assertions.
+# Usage: load_table_definition <table_name>
 load_table_definition() {
     local COCKROACH_TABLE=$1
 
