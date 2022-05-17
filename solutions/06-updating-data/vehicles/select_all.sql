@@ -1,1 +1,1 @@
-SELECT id, make, model, color FROM movr_vehicles.vehicles;
+SELECT id, vehicle_type, make, model, color FROM movr_vehicles.vehicles;

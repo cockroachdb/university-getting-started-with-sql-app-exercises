@@ -126,6 +126,7 @@ scenario "select_all.sql"
     test "should return the correct first record"
         INDEX=$(get_index_of "id" "03d0a3a4-ae36-4178-819c-0c1b08e59afc")
         assert_equals $INDEX "id" "03d0a3a4-ae36-4178-819c-0c1b08e59afc"
+        assert_equals $INDEX "vehicle_type" "Scooter"
         assert_equals $INDEX "make" "Spitfire"
         assert_equals $INDEX "model" "Inferno"
         assert_equals $INDEX "color" "Red"
