@@ -2,7 +2,7 @@
 set -euo pipefail
 IFS=$'\n\t'
 
-COCKROACH_URL="postgresql://root@localhost:26257/defaultdb?sslmode=disable"
+COCKROACH_URL="postgresql://root@localhost:26257/movr_vehicles?sslmode=disable"
 COCKROACH_DATA_DIR="./cockroach_db_tmp_store"
 COCKROACH_COMMAND="cockroach start-single-node --insecure --store '$COCKROACH_DATA_DIR'"
 
