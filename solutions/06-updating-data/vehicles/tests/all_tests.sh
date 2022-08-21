@@ -75,10 +75,6 @@ scenario "create_table.sql"
         assert_column_type "description" "STRING"
         assert_column_is_nullable "description"
     end
-
-    test "should correctly define the primary key"
-        assert_primary_key "id ASC"
-    end
 end
 
 scenario "insert.sql"
