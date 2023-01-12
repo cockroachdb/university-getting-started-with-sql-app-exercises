@@ -16,6 +16,6 @@ jobs:
       - uses: actions/checkout@v2
 
       - name: Install CockroachDB
-        run: curl https://binaries.cockroachdb.com/cockroach-v22.2.1.linux-amd64.tgz | tar -xz && sudo cp -i cockroach-v22.2.1.linux-amd64/cockroach /usr/local/bin/
+        run: curl https://binaries.cockroachdb.com/cockroach-v22.1.0.linux-amd64.tgz | tar -xz && sudo cp -i cockroach-v22.1.0.linux-amd64/cockroach /usr/local/bin/
       - name: Run the tests for all exercises
         run: ./build.sh verify
