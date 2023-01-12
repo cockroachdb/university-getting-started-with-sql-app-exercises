@@ -155,7 +155,7 @@ load_table_definition() {
     load_from_query "SHOW COLUMNS FROM $COCKROACH_TABLE;"
 
     local CREATE_TABLE=$(cockroach sql --url $COCKROACH_URL --execute "SHOW CREATE TABLE $COCKROACH_TABLE;")
-    local REGEX=".* PRIMARY KEY \((.*)\),.*"
+    local REGEX=".* PRIMARY KEY \(([^\)]*)\)"
 
     if [[ $CREATE_TABLE =~ $REGEX ]]
     then
