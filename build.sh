@@ -4,7 +4,7 @@ IFS=$'\n\t'
 
 EXERCISES_FOLDER="exercises"
 SOLUTIONS_FOLDER="solutions"
-SOLUTIONS=($(ls $SOLUTIONS_FOLDER | grep '^[0-9]'))
+SOLUTIONS=($(ls --color=never $SOLUTIONS_FOLDER | grep '^[0-9]'))
 SUBFOLDERS=("vehicles")
 COMMAND=${1:-"help"}
 
