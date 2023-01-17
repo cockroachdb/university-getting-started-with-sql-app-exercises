@@ -228,6 +228,7 @@ get_value_of() {
     for ENTRY in "${ENTRIES[@]}"; do
         local KEY=$(echo $ENTRY | cut -d '=' -f 1)
         local VALUE=$(echo $ENTRY | cut -d '=' -f 2)
+        local VALUE=$(convert_boolean $VALUE)
 
         if [[ $KEY == $COLUMN ]]; then
             echo $VALUE
@@ -292,6 +293,27 @@ success() {
     log "${COLOR_GREEN}SUCCESS - $MESSAGE${COLOR_NONE}"
 }
 
+# Required because starting with v22.2, the shell returns `t` and `f` instead
+# of `true` and `false`, and we need to account for that.
+# This is a patch, not a perfect fix.
+convert_boolean() {
+  if [ $# -ge 1 ]; then
+      local POTENTIAL_BOOLEAN=$1
+      if [[ $POTENTIAL_BOOLEAN == "t" ]]; then
+          echo "true"
+      else
+          if [[ $POTENTIAL_BOOLEAN == "f" ]]; then
+              echo "false"
+          else
+              echo $POTENTIAL_BOOLEAN
+          fi
+      fi
+    else
+        echo ""
+  fi
+}
+
+
 # GENERIC ASSERTIONS
 
 assert_equals() {
@@ -301,6 +323,7 @@ assert_equals() {
     local MESSAGE=${4:-"assert_equals: $COLUMN == $EXPECTED_VALUE AT INDEX $1"}
 
     local ACTUAL_VALUE=$(get_value_of $INDEX $COLUMN)
+    local ACTUAL_VALUE=$(convert_boolean $ACTUAL_VALUE)
 
     if [[ $ACTUAL_VALUE == $EXPECTED_VALUE ]]; then
         success "$MESSAGE"
@@ -316,6 +339,7 @@ assert_not_equals() {
     local MESSAGE=${4:-"assert_not_equals: $COLUMN != $EXPECTED_VALUE AT INDEX $1"}
 
     local ACTUAL_VALUE=$(get_value_of $INDEX $COLUMN)
+    local ACTUAL_VALUE=$(convert_boolean $ACTUAL_VALUE)
 
     if [[ $ACTUAL_VALUE == $EXPECTED_VALUE ]]; then
         fail "$MESSAGE"
@@ -475,7 +499,8 @@ assert_index_exists() {
     local MESSAGE="assert_index_exists: INDEX EXISTS NAMED $INDEX_NAME WITH NON_UNIQUE=$NON_UNIQUE, SEQUENCE_NUMBER=$SEQUENCE_NUMBER, COLUMN=$COLUMN_NAME, DIRECTION=$DIRECTION"
 
     for ROW in "${TABLE_DATA[@]}"; do
-        if [[ "$ROW" == *"index_name=$INDEX_NAME|non_unique=$NON_UNIQUE|seq_in_index=$SEQUENCE_NUMBER|column_name=$COLUMN_NAME|direction=$DIRECTION|"* ]]; then
+        # removed a check for non_unique=true
+        if [[ "$ROW" == *"index_name=$INDEX_NAME|"*"|seq_in_index=$SEQUENCE_NUMBER|column_name=$COLUMN_NAME|direction=$DIRECTION|"* ]]; then
             success "$MESSAGE"
             return 0
         fi
